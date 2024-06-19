@@ -1,0 +1,5 @@
+telbook/__pycache__
+telephones/__pycache__
+Dockerfile
+database/*.sqlite3
+*.pyc
