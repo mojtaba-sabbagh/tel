@@ -22,8 +22,8 @@ class UserProfile(models.Model):
 
     class Meta:
         ordering = ['last_name', 'first_name']
-        verbose_name = "کاربر"
-        verbose_name_plural = "مدیریت کاربران"
+        verbose_name = 'کاربر'
+        verbose_name_plural = 'مدیریت کاربران'
         
         
     def __str__(self):
@@ -47,17 +47,17 @@ class Department(models.Model):
         ('سرای', 'سرای دانشجوی'),
         ('گیت', 'گیت'),
     )
-    dep_title = models.CharField(max_length=255, blank=True, null=True, choices=TITLE_CHOICES)
-    dep_name = models.CharField(max_length=255)
-    dep_address = models.CharField(max_length=255, blank=True, null=True)
-    level = models.IntegerField(default=0)
-    super_dep = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, verbose_name="the related dep")
+    title = models.CharField(max_length=255, blank=True, null=True, choices=TITLE_CHOICES, verbose_name='عنوان')
+    name = models.CharField(max_length=255, verbose_name='نام')
+    address = models.CharField(max_length=255, blank=True, null=True, verbose_name='آدرس')
+    level = models.IntegerField(default=0, verbose_name='سطح')
+    super_dep = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, verbose_name='واحد های مرتبط')
     
 
     class Meta:
-        ordering = ['dep_title', 'dep_name']
-        verbose_name = "واحد سازمانی"
-        verbose_name_plural = "واحدهای سازمانی"
+        ordering = ['title', 'name']
+        verbose_name = 'واحد سازمانی'
+        verbose_name_plural = 'واحدهای سازمانی'
         
     
     def __str__(self):

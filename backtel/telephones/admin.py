@@ -6,10 +6,6 @@ from .models import UserProfile, Department, Telephone, PositionType, Position, 
 # Register your models here.
 @admin.register(UserProfile)
 class ProfileAdmin(admin.ModelAdmin):
-    # readonly_fields = ('id',)
-    # css = {
-    #          'all': ('templates/css/admin-extra.css ',)
-    #     }
     list_display = ['user', 'first_name', 'last_name', 'gender', 'birthday', 'national_id', 'email', 'mobile']
     list_filter = ['gender',]
     search_fields = ['first_name', 'last_name', 'national_id', 'email', 'mobile']
@@ -19,11 +15,9 @@ class ProfileAdmin(admin.ModelAdmin):
 
 @admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):
-    # readonly_fields = ('id',)
-    # css = {
-    #          'all': ('templates/css/admin-extra.css ',)
-    #     }
-    search_fields = ['dep_name']
+    list_display = ['title', 'name', 'address', 'level', 'super_dep']
+    list_filter = ['title', 'level']
+    search_fields = ['name']
 
 
 
