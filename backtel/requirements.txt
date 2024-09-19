@@ -3,4 +3,4 @@ Openpyxl
 Path
 Djangorestframework
 Django-cors-headers
-
+psycopg2
