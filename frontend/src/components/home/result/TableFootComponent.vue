@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="flex flex-col sm:flex-row justify-between items-center space-y-3 sm:space-y-0 p-4"
+    class="flex flex-col sm:flex-row justify-between items-center p-4"
     aria-label="Table navigation"
   >
     <span class="text-sm font-normal text-gray-500 dark:text-gray-400">

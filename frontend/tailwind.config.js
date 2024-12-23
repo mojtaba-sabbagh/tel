@@ -19,6 +19,9 @@ export default {
           950: '#172554',
         },
       },
+      fontFamily: {
+        persian: ['Sahel'],
+      },
     },
   },
   plugins: [],

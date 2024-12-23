@@ -22,10 +22,10 @@ const resultTableData = ref({
 
 <template>
   <section>
-    <div class="mt-4">
+    <div class="mt-4 shadow-lg">
       <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
         <div class="overflow-x-auto">
-          <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <table class="w-full text-sm text-start text-gray-500 dark:text-gray-400">
             <TableHeadComponent></TableHeadComponent>
             <TableBodyComponent
               v-for="(item, index) in items"
