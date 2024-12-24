@@ -18,7 +18,7 @@ watch(isLightMode, () => {
 
 <template>
   <div v-bind:class="darkModeStatus">
-    <div class="min-h-svh bg-gray-50 dark:bg-gray-900 font-persian">
+    <div class="min-h-svh bg-neutral-100 dark:bg-gray-900 font-persian">
       <div class="container mx-auto p-5">
         <div class="flex flex-row justify-between items-center">
           <TitleComponent></TitleComponent>
