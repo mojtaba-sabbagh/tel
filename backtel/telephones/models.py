@@ -3,13 +3,13 @@ from django.contrib.auth.models import User
 
 
 # Create your models here.
-class UserProfile(models.Model):
+class Profile(models.Model):
     GENDER_CHOICES = (
         ('M', 'مرد'),
         ('F', 'زن'),
     )
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='حساب کاربری')
-    profile = models.ImageField(upload_to='images', blank=True, null=True, verbose_name='عکس پروفایل')
+    pic = models.ImageField(upload_to='images', blank=True, null=True, verbose_name='عکس پروفایل')
     first_name = models.CharField(max_length=255, verbose_name='نام')
     last_name = models.CharField(max_length=255, verbose_name='نام خانوادگی')
     gender = models.CharField(max_length=1, default='M', choices=GENDER_CHOICES, verbose_name='جنسیت')
@@ -42,19 +42,19 @@ class Department(models.Model):
         ('سرای', 'سرای دانشجوی'),
         ('گیت', 'گیت'),
     )
-    title = models.CharField(max_length=255, blank=True, null=True, choices=TITLE_CHOICES, verbose_name='عنوان')
-    name = models.CharField(max_length=255, verbose_name='نام')
-    address = models.CharField(max_length=255, blank=True, null=True, verbose_name='آدرس')
+    dep_title = models.CharField(max_length=255, blank=True, null=True, choices=TITLE_CHOICES, verbose_name='عنوان')
+    dep_name = models.CharField(max_length=255, verbose_name='نام')
+    dep_address = models.CharField(max_length=255, blank=True, null=True, verbose_name='آدرس')
     level = models.IntegerField(default=0, verbose_name='سطح')
     super_dep = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, verbose_name='واحد های مرتبط')
     
     class Meta:
-        ordering = ['title', 'name']
+        ordering = ['dep_title', 'dep_name']
         verbose_name = 'واحد سازمانی'
         verbose_name_plural = 'واحدهای سازمانی'    
     
     def __str__(self):
-        return f"{self.title} - {self.name}"
+        return f"{self.dep_title} - {self.dep_name}"
 
 
 class Telephone(models.Model):
@@ -89,7 +89,7 @@ class PositionType(models.Model):
 class Position(models.Model):
     position_type =  models.ForeignKey(PositionType, related_name='position_types', on_delete=models.CASCADE, verbose_name="نوع پست سازمانی")
     dep = models.ForeignKey(Department, related_name='deps', on_delete=models.CASCADE, verbose_name="واحد سازمانی")
-    owner = models.ForeignKey(UserProfile, related_name='owners', on_delete=models.CASCADE, verbose_name="کاربر مسئول")
+    owner = models.ForeignKey(Profile, related_name='owners', on_delete=models.CASCADE, verbose_name="کاربر مسئول")
     duties = models.CharField(max_length=255, blank=True, null=True, default='', verbose_name='وظایف')
 
     class Meta:

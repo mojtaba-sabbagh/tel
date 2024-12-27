@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import UserProfile, Department, Telephone, PositionType, Position, Assign
+from .models import Profile, Department, Telephone, PositionType, Position, Assign
 
 
 # Register your models here.
@@ -13,7 +13,7 @@ class AssignInline(admin.TabularInline):
     extra = 1
 
 
-@admin.register(UserProfile)
+@admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     readonly_fields = ['get_label_id']
     list_display = ['get_label_id', 'user', 'first_name', 'last_name', 'gender', 'birthday', 'national_id', 'email', 'mobile']
@@ -29,9 +29,9 @@ class ProfileAdmin(admin.ModelAdmin):
 @admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):
     readonly_fields = ['get_label_id']
-    list_display = ['get_label_id', 'title', 'name', 'address', 'level', 'super_dep']
-    list_filter = ['title', 'level', 'super_dep']
-    search_fields = ['name', 'address']
+    list_display = ['get_label_id', 'dep_title', 'dep_name', 'dep_address', 'level', 'super_dep']
+    list_filter = ['dep_title', 'level', 'super_dep']
+    search_fields = ['dep_name', 'dep_address']
     inlines = [PositionInline]
 
     def get_label_id (self, obj):
@@ -69,8 +69,8 @@ class PositionTypeAdmin(admin.ModelAdmin):
 class PositionAdmin(admin.ModelAdmin):
     readonly_fields = ['get_label_id']
     list_display = ['get_label_id', 'position_type', 'dep', 'owner', 'duties']
-    list_filter = ['dep__title', 'owner__gender']
-    search_fields = ['dep__name', 'position_type__title', 'owner__last_name', 'owner__first_name']
+    list_filter = ['dep__dep_title', 'owner__gender']
+    search_fields = ['dep__dep_name', 'position_type__title', 'owner__last_name', 'owner__first_name']
     inlines = []
 
     def get_label_id (self, obj):
@@ -82,8 +82,8 @@ class PositionAdmin(admin.ModelAdmin):
 class AssignAdmin(admin.ModelAdmin):
     readonly_fields = ('get_label_id',)
     list_display = ['get_label_id', 'position', 'tel', 'date']
-    list_filter = ['position__dep__title', 'date']
-    search_fields = ['tel__extension', 'position__dep__name', 'position__position_type__title', 'position__owner__first_name', 'position__owner__last_name', 'position__owner__gender']
+    list_filter = ['position__dep__dep_title', 'date']
+    search_fields = ['tel__extension', 'position__dep__dep_name', 'position__position_type__title', 'position__owner__first_name', 'position__owner__last_name', 'position__owner__gender']
 
     def get_label_id (self, obj):
         return obj.id
