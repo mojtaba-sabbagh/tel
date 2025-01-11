@@ -4,7 +4,7 @@ export default {
     return {
       hasError: false,
       entered: false,
-    };
+    }
   },
   props: {
     label_title: String,
@@ -15,11 +15,11 @@ export default {
     },
     accept_msg: {
       type: String,
-      default: "",
+      default: '',
     },
     reject_msg: {
       type: String,
-      default: "",
+      default: '',
     },
     l2r: {
       type: Boolean,
@@ -27,9 +27,9 @@ export default {
     },
     width_col: {
       type: String,
-      default: "w-1",
+      default: 'w-1',
     },
-    itemSelected: "",
+    itemSelected: '',
     order: {
       type: Number,
     },
@@ -40,37 +40,27 @@ export default {
   },
   methods: {
     constraint() {
-      this.entered = true;
-      if (this.required & (this.itemSelected == "")) {
-        this.hasError = true;
+      this.entered = true
+      if (this.required & (this.itemSelected == '')) {
+        this.hasError = true
       } else {
-        this.hasError = false;
+        this.hasError = false
       }
-      this.$emit("onChangeValue", this.itemSelected);
-      this.$emit("onStateChange", this.hasError, this.order);
+      this.$emit('onChangeValue', this.itemSelected)
+      this.$emit('onStateChange', this.hasError, this.order)
     },
     onEnterFunc() {
-      this.constraint();
-      this.$emit("onEnterKey");
+      this.constraint()
+      this.$emit('onEnterKey')
     },
   },
-};
+}
 </script>
 
 <template>
-  <div class="float-right flex flex-col">
-    <label
-      for="input-success"
-      class="font-farsi mb-2 text-sm"
-      v-bind:class="{
-        'text-green-700 dark:text-green-500': !hasError,
-        'text-red-700 dark:text-red-500': hasError,
-      }"
-    >
+  <div class="flex flex-col items-start">
+    <label for="input-success" class="text-sm font-medium text-gray-900 dark:text-white">
       {{ label_title }}
-      <p class="inline text-xl text-red-700 dark:text-red-500">
-        <span v-if="required"> * </span>
-      </p>
     </label>
     <select
       v-model="itemSelected"
@@ -78,29 +68,12 @@ export default {
       :disabled="disabled"
       :required="required"
       @keyup.enter="onEnterFunc"
-      class="form-select form-select-sm w-full appearance-none border text-sm text-center rounded-lg p-2.5 bg-white-50 border-gray-500 text-gray-900 placeholder-gray-200 focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-100 dark:border-gray-400"
-      v-bind:class="{
-        'bg-green-50 border-green-500 text-green-900 placeholder-green-200 focus:ring-green-500 focus:border-green-500 dark:bg-green-100 dark:border-green-400':
-          !hasError & entered,
-        'bg-red-50 border-red-500 text-red-900 placeholder-red-200 focus:ring-red-500 focus:border-red-500 dark:bg-red-100 dark:border-red-400':
-          hasError,
-        'ltr-grid': l2r,
-      }"
-      aria-label=".form-select-sm example"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
     >
       <option v-bind:value="0" selected>همه واحدها</option>
-      <option
-        v-for="option in options"
-        v-bind:value="option.ID"
-        v-bind:key="option.ID"
-      >
+      <option v-for="option in options" v-bind:value="option.ID" v-bind:key="option.ID">
         {{ option.text }}
       </option>
     </select>
   </div>
 </template>
-<style scoped>
-.ltr-grid {
-  direction: ltr;
-}
-</style>

@@ -21,12 +21,9 @@ const serverUrl = import.meta.env.VITE_SERVER_URL
 const offset = ref(0)
 const pageSize = ref(50)
 
-const mainSubDepOptions = ref({})
-const subSubDepOptions = ref(Object)
 const mainDep = ref('')
 const subDep = ref('')
 const subSubDep = ref('')
-const len = ref(0)
 
 const mainDepOptions = ref({})
 function depList0() {
@@ -42,6 +39,75 @@ function depList0() {
     })
 }
 depList0()
+
+const mainSubDepOptions = ref({})
+function depList1(sdep) {
+  axios({
+    method: 'get',
+    url: serverUrl + '/tel/deps/?level=1' + '&super-dep=' + sdep,
+  })
+    .then((response) => {
+      mainSubDepOptions.value = response.data
+    })
+    .catch((error) => {
+      errorMessage.value = error //'خطایی در گرفتن اطلاعات کاربر رخ داد'; //error.data
+    })
+}
+
+const subSubDepOptions = ref(Object)
+function depList2(sdep) {
+  axios({
+    method: 'get',
+    url: serverUrl + '/tel/deps/?level=2' + '&super-dep=' + sdep,
+  })
+    .then((response) => {
+      subSubDepOptions.value = response.data
+    })
+    .catch((error) => {
+      errorMessage.value = error //'خطایی در گرفتن اطلاعات کاربر رخ داد'; //error.data
+    })
+}
+
+function updateDep(newValue) {
+  if (newValue && newValue != '0') {
+    mainDep.value = newValue
+    finalDep.value = newValue
+    mainSubDepOptions.value = depList1(finalDep.value)
+  } else {
+    mainDep.value = ''
+    finalDep.value = ''
+  }
+}
+
+function updateSubDep(newValue) {
+  if (newValue && newValue != '0') {
+    subDep.value = newValue
+    finalDep.value = newValue
+    subSubDepOptions.value = depList2(finalDep.value)
+  } else {
+    subDep.value = ''
+    updateDep(mainDep.value)
+  }
+}
+
+const len = ref(0)
+function updateSubSubDep(newValue) {
+  if (newValue && newValue != '0') {
+    subSubDep.value = newValue
+    finalDep.value = newValue
+  } else {
+    subSubDep.value = ''
+    updateSubDep(subDep.value)
+  }
+}
+
+function updateSearchPost(newValue) {
+  if (newValue && newValue != '0') {
+    finalPost.value = newValue
+  } else {
+    finalPost.value = 0
+  }
+}
 
 const searchPostOptions = ref()
 function postList() {
@@ -204,55 +270,22 @@ function updatefamily(newValue) {
                 </div>
               </div>
 
-              // flag
-
-              <div>
-                <div class="relative">
-                  <div
-                    class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
-                  >
-                    <svg
-                      class="w-4 h-4 text-gray-500 dark:text-gray-400"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                      />
-                    </svg>
-                  </div>
-                  <input
-                    type="search"
-                    id="search"
-                    class="w-full 2xl:w-2/5 md:w-1/2 p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    v-model.lazy.trim="searchFormData.advanced.search"
-                  />
-                </div>
+              <div class="w-full md:w-1/2 2xl:w-2/5">
+                <InputText
+                  v-if="sname"
+                  input_placeholder=""
+                  @onChangeValue="updatefamily"
+                  :order="1"
+                  @onEnterKey="submitSearch"
+                />
+                <DropDown
+                  v-if="spost"
+                  :options="searchPostOptions"
+                  @onChangeValue="updateSearchPost"
+                  :order="5"
+                  @onEnterKey="submitSearch"
+                />
               </div>
-
-              <InputText
-                v-if="sname"
-                input_placeholder=""
-                @onChangeValue="updatefamily"
-                @onEnterKey="submitSearch"
-                :order="1"
-                @onStateChange="updateErrorArray"
-              />
-              <DropDown
-                v-if="spost"
-                :options="searchPostOptions"
-                @onChangeValue="updateSearchPost"
-                :order="5"
-                @onEnterKey="submitSearch"
-              />
-
-              // end flag
             </div>
 
             <div class="flex flex-col gap-4">
@@ -266,57 +299,30 @@ function updatefamily(newValue) {
 
               <div class="flex flex-col md:flex-row gap-6">
                 <div class="flex flex-col gap-2 w-full md:w-1/3">
-                  <label for="main-unit" class="text-sm font-medium text-gray-900 dark:text-white">
-                    واحد اصلی
-                  </label>
-                  <select
-                    id="main-unit"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    v-model="searchFormData.limited.mianUnit"
-                  >
-                    <option value="default" selected>انتخاب کنید...</option>
-                    <option>United States</option>
-                    <option>Canada</option>
-                    <option>France</option>
-                    <option>Germany</option>
-                  </select>
+                  <DropDown
+                    label_title="واحد اصلی"
+                    :options="mainDepOptions"
+                    @onChangeValue="updateDep"
+                    :order="1"
+                  />
                 </div>
 
                 <div class="flex flex-col gap-2 w-full md:w-1/3">
-                  <label
-                    for="main-subunit"
-                    class="text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    زیر واحد اصلی
-                  </label>
-                  <select
-                    id="main-subunit"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    v-model="searchFormData.limited.mainSubnit"
-                  >
-                    <option value="default" selected>انتخاب کنید...</option>
-                    <option>United States</option>
-                    <option>Canada</option>
-                    <option>France</option>
-                    <option>Germany</option>
-                  </select>
+                  <DropDown
+                    label_title="زیر واحد اصلی"
+                    :options="mainSubDepOptions"
+                    @onChangeValue="updateSubDep"
+                    :order="2"
+                  />
                 </div>
 
                 <div class="flex flex-col gap-2 w-full md:w-1/3">
-                  <label for="sub-unit" class="text-sm font-medium text-gray-900 dark:text-white">
-                    زیر واحد فرعی
-                  </label>
-                  <select
-                    id="sub-unit"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    v-model="searchFormData.limited.subunit"
-                  >
-                    <option value="default" selected>انتخاب کنید...</option>
-                    <option>United States</option>
-                    <option>Canada</option>
-                    <option>France</option>
-                    <option>Germany</option>
-                  </select>
+                  <DropDown
+                    label_title="زیر واحد فرعی"
+                    :options="subSubDepOptions"
+                    @onChangeValue="updateSubSubDep"
+                    :order="3"
+                  />
                 </div>
               </div>
             </div>
