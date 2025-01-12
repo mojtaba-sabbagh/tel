@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from pyparsing import And
 from sympy import re
-from .models import Department, PositionType, UserProfile, Position, Assign
+from .models import Department, PositionType, Profile, Position, Assign
 from django.db.models import Q
 from .serializers import AssignNameSerializer, DepNameSerializer, PositionTypeSerializer
 from django.http import JsonResponse

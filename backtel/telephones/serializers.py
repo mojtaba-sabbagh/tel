@@ -1,6 +1,13 @@
 from rest_framework import serializers
 from .models import Assign, Department, Position, PositionType
 
+
+# class ProfileField(serializers.RelatedField):
+#     def to_representation(self, value):
+#         if value.profile:
+#             return value.profile.url
+#         return ''
+    
 class FullnameField(serializers.RelatedField):
     def to_representation(self, value):
         return f"{value.first_name} {value.last_name}"
@@ -36,6 +43,7 @@ class DescField(serializers.RelatedField):
 
 class AssignNameSerializer(serializers.ModelSerializer):
     # PrimaryKeyRelatedField
+    # profile = ProfileField(source='position.owner', read_only=True)
     full_name = FullnameField(source='position.owner', read_only=True)
     position = PosTitleField(source='position.position_type', read_only=True)
     dep = DepNameField(source='position.dep', read_only=True)
@@ -47,6 +55,7 @@ class AssignNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Assign
         fields = (
+            # 'profile',
             'full_name',
             'position',
             'dep',
