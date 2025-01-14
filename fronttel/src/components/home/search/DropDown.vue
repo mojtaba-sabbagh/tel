@@ -4,6 +4,7 @@ export default {
     return {
       hasError: false,
       entered: false,
+      itemSelected: '',
     }
   },
   props: {
@@ -29,7 +30,6 @@ export default {
       type: String,
       default: 'w-1',
     },
-    itemSelected: '',
     order: {
       type: Number,
     },

@@ -11,7 +11,7 @@ defineProps({ itemsRow: Array })
       <table class="w-full text-sm text-start text-gray-500 dark:text-gray-400">
         <TableHeadComponent></TableHeadComponent>
         <TableBodyComponent
-          v-for="(item, index) in items"
+          v-for="(item, index) in itemsRow"
           v-bind:key="index"
           v-bind:result-table-data="item"
         ></TableBodyComponent>

@@ -2,7 +2,7 @@
 import { useTelLink } from '@/composables/useTelLink'
 
 defineProps({
-  resultTableData: String,
+  resultTableData: Object,
 })
 </script>
 
@@ -17,7 +17,7 @@ defineProps({
         />
       </th> -->
       <th scope="row" class="px-4 py-3 text-nowrap font-medium text-gray-900 dark:text-white">
-        {{ props.resultTableData.full_name }}
+        {{ resultTableData.full_name }}
       </th>
       <td class="px-4 py-3 text-start text-nowrap">{{ resultTableData.extension }}</td>
       <td class="px-4 py-3 text-start text-nowrap">

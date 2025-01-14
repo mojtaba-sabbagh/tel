@@ -90,7 +90,6 @@ function updateSubDep(newValue) {
   }
 }
 
-const len = ref(0)
 function updateSubSubDep(newValue) {
   if (newValue && newValue != '0') {
     subSubDep.value = newValue
@@ -184,6 +183,7 @@ function getPage(url) {
 
 onMounted(() => {
   submitSearch()
+  console.log(searchResults)
 })
 
 function getNext() {
@@ -272,14 +272,14 @@ function updatefamily(newValue) {
 
               <div class="w-full md:w-1/2 2xl:w-2/5">
                 <InputText
-                  v-if="sname"
+                  v-if="searchBy == 'sname'"
                   input_placeholder=""
                   @onChangeValue="updatefamily"
                   :order="1"
                   @onEnterKey="submitSearch"
                 />
                 <DropDown
-                  v-if="spost"
+                  v-if="searchBy == 'spost'"
                   :options="searchPostOptions"
                   @onChangeValue="updateSearchPost"
                   :order="5"
@@ -333,10 +333,12 @@ function updatefamily(newValue) {
                 @click="submitSearch"
                 class="bg-blue-600 dark:bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 text-white text-sm font-medium focus:outline-none rounded-lg py-2.5 px-5 text-center"
               >
-                <span v-if="searchStart">
-                  <SpinnerIcon></SpinnerIcon>
+                <span class="flex flex-row justify-center items-center">
+                  <span v-if="searchStart">
+                    <SpinnerIcon></SpinnerIcon>
+                  </span>
+                  <span>{{ searchStart ? 'در حال جستجو...' : 'جستجو' }}</span>
                 </span>
-                <span>{{ searchStart ? 'در حال جستجو...' : 'جستجو' }}</span>
               </button>
             </div>
           </form>
@@ -356,7 +358,7 @@ function updatefamily(newValue) {
             <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
               نمایش
               <span class="font-semibold text-gray-900 dark:text-white">
-                {{ `${offset + 1}-${offset + pageSize + 1}` }}
+                {{ `${offset + 1}-${offset + pageSize}` }}
               </span>
             </span>
             <ul class="inline-flex items-stretch -space-x-px">
