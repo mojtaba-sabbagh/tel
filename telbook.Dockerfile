@@ -5,13 +5,7 @@ WORKDIR /app
 RUN pip install --upgrade pip
 
 COPY telbook .
-RUN pip install openpyxl
-RUN pip install path
-RUN pip install djangorestframework
-RUN pip install django-cors-headers
-RUN pip install gunicorn
-RUN pip install pyparsing
-RUN pip install sympy
+RUN pip install -r requirements.txt
 
 COPY entrypoint.sh .
 
