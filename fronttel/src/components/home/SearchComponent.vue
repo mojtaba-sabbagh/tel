@@ -207,7 +207,7 @@ function updatefamily(newValue) {
 // info table result
 
 const allDataLength = computed(() => searchResults.value?.length)
-const first = computed(() => offset.value + 1)
+const first = computed(() => Math.min(offset.value + 1, allDataLength.value))
 const last = computed(() => Math.min(offset.value + pageSize.value, allDataLength.value))
 </script>
 

@@ -2,7 +2,7 @@
 import TableHeadComponent from '@/components/home/result/TableHeadComponent.vue'
 import TableBodyComponent from '@/components/home/result/TableBodyComponent.vue'
 
-defineProps({ itemsRow: Array })
+defineProps({ itemsRow: { type: Array, required: true } })
 </script>
 
 <template>
