@@ -54,7 +54,7 @@ function depList1(sdep) {
     })
 }
 
-const subSubDepOptions = ref(Object)
+const subSubDepOptions = ref({})
 function depList2(sdep) {
   axios({
     method: 'get',
@@ -72,7 +72,7 @@ function updateDep(newValue) {
   if (newValue && newValue != '0') {
     mainDep.value = newValue
     finalDep.value = newValue
-    mainSubDepOptions.value = depList1(finalDep.value)
+    depList1(finalDep.value)
   } else {
     mainDep.value = ''
     finalDep.value = ''
@@ -83,7 +83,7 @@ function updateSubDep(newValue) {
   if (newValue && newValue != '0') {
     subDep.value = newValue
     finalDep.value = newValue
-    subSubDepOptions.value = depList2(finalDep.value)
+    depList2(finalDep.value)
   } else {
     subDep.value = ''
     updateDep(mainDep.value)
@@ -183,7 +183,6 @@ function getPage(url) {
 
 onMounted(() => {
   submitSearch()
-  console.log(searchResults)
 })
 
 function getNext() {
@@ -330,7 +329,7 @@ function updatefamily(newValue) {
             <div class="flex flex-col md:block">
               <button
                 type="submit"
-                @click="submitSearch"
+                @click.prevent="submitSearch"
                 class="bg-blue-600 dark:bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 text-white text-sm font-medium focus:outline-none rounded-lg py-2.5 px-5 text-center"
               >
                 <span class="flex flex-row justify-center items-center">
