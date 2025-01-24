@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 import FilterIcon from './icons/FilterIcon.vue'
 import ChevronLeftIcon from './icons/ChevronLeftIcon.vue'
@@ -8,7 +8,7 @@ import SpinnerIcon from './icons/SpinnerIcon.vue'
 import DropDown from './search/DropDown.vue'
 import InputText from './search/InputText.vue'
 import ResultComponent from '@/components/home/ResultComponent.vue'
-import axios from 'axios'
+import axios, { all } from 'axios'
 
 axios.defaults.headers.get['Content-Type'] = 'application/json'
 
@@ -203,6 +203,12 @@ function getPre() {
 function updatefamily(newValue) {
   family.value = newValue
 }
+
+// info table result
+
+const allDataLength = computed(() => searchResults.value?.length)
+const first = computed(() => offset.value + 1)
+const last = computed(() => Math.min(offset.value + pageSize.value, allDataLength.value))
 </script>
 
 <template>
@@ -357,8 +363,13 @@ function updatefamily(newValue) {
             <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
               نمایش
               <span class="font-semibold text-gray-900 dark:text-white">
-                {{ `${offset + 1}-${offset + pageSize}` }}
+                {{ `${first} تا ${last}` }}
               </span>
+              از
+              <span class="font-semibold text-gray-900 dark:text-white">
+                {{ `${allDataLength} ` }}
+              </span>
+              سطر
             </span>
             <ul class="inline-flex items-stretch -space-x-px">
               <li>
