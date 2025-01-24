@@ -194,11 +194,11 @@ function getNext() {
 function getPre() {
   let page = pre.value.split('=')[1]
   if (page) {
-    offset.value = (parseInt(page) - 1) * this.pageSize
+    offset.value = (parseInt(page) - 1) * pageSize.value
   } else {
     offset.value = 0
   }
-  this.getPage(pre.value)
+  getPage(pre.value)
 }
 
 function updatefamily(newValue) {
@@ -365,9 +365,9 @@ function updatefamily(newValue) {
               <li>
                 <button
                   type="button"
-                  @click.prevent="getNext"
+                  @click="getPre"
+                  :disabled="!pre"
                   class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-s-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white disabled:bg-slate-100"
-                  :disabled="!next"
                 >
                   <span class="sr-only">قبل</span>
                   <svg
@@ -387,9 +387,9 @@ function updatefamily(newValue) {
               </li>
               <li>
                 <button
-                  :disabled="!pre"
+                  :disabled="!next"
                   type="button"
-                  @click="getPre"
+                  @click="getNext"
                   class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-e-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white disabled:bg-slate-100"
                 >
                   <span class="sr-only">بعد</span>
