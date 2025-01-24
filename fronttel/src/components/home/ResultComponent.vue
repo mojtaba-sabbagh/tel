@@ -10,11 +10,13 @@ defineProps({ itemsRow: Array })
     <div class="overflow-x-auto">
       <table class="w-full text-sm text-start text-gray-500 dark:text-gray-400">
         <TableHeadComponent></TableHeadComponent>
-        <TableBodyComponent
-          v-for="(item, index) in itemsRow"
-          v-bind:key="index"
-          v-bind:result-table-data="item"
-        ></TableBodyComponent>
+        <tbody>
+          <TableBodyComponent
+            v-for="(item, index) in itemsRow"
+            v-bind:key="index"
+            v-bind:result-table-data="item"
+          ></TableBodyComponent>
+        </tbody>
       </table>
     </div>
   </section>
