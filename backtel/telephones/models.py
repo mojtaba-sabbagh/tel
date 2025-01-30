@@ -103,7 +103,7 @@ class Position(models.Model):
 
 class Assign(models.Model):
     date = models.DateField(blank=True, null=True, verbose_name="تاریخ تخصیص")
-    position = models.ForeignKey(Position, related_name='positions', on_delete=models.CASCADE, verbose_name="پست سازمانی")
+    position = models.ForeignKey(Position, related_name='positions', on_delete=models.CASCADE, verbose_name="پست سازمانی", blank=True, null=True,)
     tel = models.ForeignKey(Telephone, related_name='tels', on_delete=models.CASCADE, verbose_name="شماره تلفن")
 
     class Meta:
