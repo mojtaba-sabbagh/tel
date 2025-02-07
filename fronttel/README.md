@@ -28,6 +28,12 @@ npm run dev
 npm run debug
 ```
 
+### or With share
+
+```sh
+npm run share
+```
+
 ### Compile and Minify for Production
 
 ```sh

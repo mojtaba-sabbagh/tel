@@ -6,5 +6,5 @@ urlpatterns = [
     re_path('bypost/(?P<dep>\d+)/(?P<qpost>\w+)/', post_search, name='postsearch'),
     path('deps/', dep_names, name='depnames'),
     path('posts/', dep_positions, name='deppositions'),
-    path('extension/<str:qextension>/', extension_search, name='extension search'),
+    path('extension/<int:dep>/<str:qextension>/', extension_search, name='extension search'),
 ]

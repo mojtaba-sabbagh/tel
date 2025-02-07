@@ -114,7 +114,7 @@ def post_search(request, dep, qpost):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 @parser_classes([JSONParser])
-def extension_search(request, qextension):
+def extension_search(request, dep, qextension):
     """ search for extension  """
     qset = Assign.objects.select_related('tel').filter(tel__extension__startswith=qextension)
     paginator = PageNumberPagination()

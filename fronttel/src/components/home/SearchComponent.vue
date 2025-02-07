@@ -128,6 +128,7 @@ const searchStart = ref(false)
 const searchBy = ref('sname')
 const finalDep = ref('')
 const family = ref('')
+const extension = ref('')
 const finalPost = ref(0)
 function submitSearch() {
   let q = ''
@@ -141,6 +142,9 @@ function submitSearch() {
   } else if (searchBy.value === 'spost') {
     q = finalPost.value
     url = serverUrl + '/tel/bypost/'
+  } else if (searchBy.value === 'sextension') {
+    q = extension.value
+    url = serverUrl + '/tel/extension/'
   } else {
     return
   }
@@ -204,11 +208,14 @@ function updatefamily(newValue) {
   family.value = newValue
 }
 
+function updateExtension(newValue) {
+  extension.value = newValue
+}
 // info table result
 
-const allDataLength = computed(() => searchResults.value?.length)
-const first = computed(() => Math.min(offset.value + 1, allDataLength.value))
-const last = computed(() => Math.min(offset.value + pageSize.value, allDataLength.value))
+// const allDataLength = computed(() => searchResults.value?.length)
+// const first = computed(() => Math.min(offset.value + 1, allDataLength.value))
+// const last = computed(() => Math.min(offset.value + pageSize.value, allDataLength.value))
 </script>
 
 <template>
@@ -242,6 +249,10 @@ const last = computed(() => Math.min(offset.value + pageSize.value, allDataLengt
               </div>
 
               <div class="flex justify-start items-center gap-5">
+                <span class="text-gray-900 dark:text-gray-300 text-sm font-bold ms-1.5">
+                  براساس:
+                </span>
+
                 <div class="flex items-center">
                   <input
                     v-model="searchBy"
@@ -254,7 +265,7 @@ const last = computed(() => Math.min(offset.value + pageSize.value, allDataLengt
                     for="by-name"
                     class="text-gray-900 dark:text-gray-300 text-sm font-medium ms-1.5"
                   >
-                    براساس نام
+                    نام
                   </label>
                 </div>
 
@@ -270,7 +281,23 @@ const last = computed(() => Math.min(offset.value + pageSize.value, allDataLengt
                     for="by-department-position"
                     class="text-gray-900 dark:text-gray-300 text-sm font-medium ms-1.5"
                   >
-                    براساس پست سازمانی
+                    پست سازمانی
+                  </label>
+                </div>
+
+                <div class="flex items-center">
+                  <input
+                    id="by-extension"
+                    type="radio"
+                    v-model="searchBy"
+                    value="sextension"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <label
+                    for="by-extension"
+                    class="text-gray-900 dark:text-gray-300 text-sm font-medium ms-1.5"
+                  >
+                    شماره داخلی
                   </label>
                 </div>
               </div>
@@ -288,6 +315,13 @@ const last = computed(() => Math.min(offset.value + pageSize.value, allDataLengt
                   :options="searchPostOptions"
                   @onChangeValue="updateSearchPost"
                   :order="5"
+                  @onEnterKey="submitSearch"
+                />
+                <InputText
+                  v-if="searchBy == 'sextension'"
+                  input_placeholder=""
+                  @onChangeValue="updateExtension"
+                  :order="1"
                   @onEnterKey="submitSearch"
                 />
               </div>
@@ -360,7 +394,7 @@ const last = computed(() => Math.min(offset.value + pageSize.value, allDataLengt
             class="flex flex-col sm:flex-row justify-between items-center p-4"
             aria-label="Table navigation"
           >
-            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
+            <!-- <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
               نمایش
               <span class="font-semibold text-gray-900 dark:text-white">
                 {{ `${first} تا ${last}` }}
@@ -370,8 +404,8 @@ const last = computed(() => Math.min(offset.value + pageSize.value, allDataLengt
                 {{ `${allDataLength} ` }}
               </span>
               سطر
-            </span>
-            <ul class="inline-flex items-stretch -space-x-px">
+            </span> -->
+            <ul class="inline-flex items-stretch -space-x-px ms-auto">
               <li>
                 <button
                   type="button"
