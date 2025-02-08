@@ -327,7 +327,7 @@ function updateExtension(newValue) {
               </div>
             </div>
 
-            <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-4" v-if="searchBy != 'sextension'">
               <div>
                 <span
                   class="bg-blue-100 text-blue-800 text-xs font-medium px-4 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300"
