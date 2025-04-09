@@ -116,7 +116,7 @@ def post_search(request, dep, qpost):
 @parser_classes([JSONParser])
 def extension_search(request, dep, qextension):
     """ search for extension  """
-    qset = Assign.objects.select_related('tel').filter(tel__extension__startswith=qextension)
+    qset = Assign.objects.select_related('tel').filter(tel__extension__startswith=qextension).order_by("tel")
     paginator = PageNumberPagination()
     context = paginator.paginate_queryset(queryset=qset, request=request)
     serial_qset = AssignNameSerializer(context, many=True)
