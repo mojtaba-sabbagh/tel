@@ -9,3 +9,4 @@ sympy==1.13.3
 openpyxl==3.1.5
 python-dotenv==1.0.1
 gunicorn
+dotenv
